@@ -2,12 +2,13 @@
 console.log('background.js');
 
 //! SECOND STEP 
-// Message received from main script
+// Message received from content script
 // When message is received a page-action is sent to the tab
+// First, validate the message's structure.
+// Enable the page-action for the requesting tab.
+// Currently the pageAction.show matches <all urls>
 chrome.runtime.onMessage.addListener((msg, sender) => {
-    // First, validate the message's structure.
-    if ((msg.from === 'main') && (msg.subject === 'showPageAction')) {
-      // Enable the page-action for the requesting tab.
+    if ((msg.from === 'content') && (msg.subject === 'showPageAction')) {
       chrome.pageAction.show(sender.tab.id);
     }
   });

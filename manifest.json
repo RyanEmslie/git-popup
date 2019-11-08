@@ -8,7 +8,7 @@
           "matches": [
               "<all_urls>"
           ],
-          "js": ["/src/main.js", "/src/js/bootstrap.min.js","/src/js/jquery.js"]
+          "js": ["/src/js/fontawesome.js", "/src/content.js", "/src/js/jquery.js", "/src/js/bootstrap.js"]
       }
   ],
   "background":{
@@ -20,5 +20,8 @@
       "default_title": "Test Extension",
       "default_popup": "/src/index.html",
       "default_icon": "/images/green.png"
+    },
+    "icons":{
+        "16": "/images/green.png"
     }
   }
