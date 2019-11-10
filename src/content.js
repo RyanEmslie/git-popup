@@ -23,7 +23,8 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
   if (msg.from === "popup" && msg.subject === "DOMInfo") {
     var domInfo = {
       accountInfo: getAccount(),
-      containers: getContainers()
+      containers: getContainers(),
+      numberPixels: document.querySelectorAll('img[src*="polo"]').length
     };
     response(domInfo);
   }
