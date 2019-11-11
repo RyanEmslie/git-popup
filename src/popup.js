@@ -40,7 +40,7 @@ const setDOMInfo = info => {
   domInfo = info;
   if (info.containers.length > 0) {
     for (var i = 0; i < info.containers.length; i++) {
-      let doc = new DOMParser().parseFromString('<table class="table table-sm text-center secondaryColor1"><tbody><tr><td>' + info.containers[i] + '</td><td style="width:50px"><form><button data="'+ info.containers[i] +'"name="gtmCopy" ><i data="'+ info.containers[i] +'" name="gtmCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="linkGTM"><i name="linkGTM"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>', 'text/html');
+      let doc = new DOMParser().parseFromString('<table class="table table-sm text-center secondaryColor1"><tbody><tr class="table-success"><td>' + info.containers[i] + '</td><td style="width:50px"><form><button data="'+ info.containers[i] +'"name="gtmCopy" ><i data="'+ info.containers[i] +'" name="gtmCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="linkGTM"><i name="linkGTM"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>', 'text/html');
       let div = doc.body.firstChild;
       document.getElementById("gtmContainers").appendChild(div)
     }
@@ -51,7 +51,7 @@ const setDOMInfo = info => {
   }
   // ACCOUNT
   if (info.accountInfo['aId'] != 'No Feathr') {
-      let doc = new DOMParser().parseFromString('<table class="table table-sm text-center secondaryColor1"><tbody><tr><td></td><td id="aId">' + info.accountInfo['aId'] + '</td><td style="width:50px"><form><button name="accountCopy"><i name="accountCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="accountLink"><i name="accountLink"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>', 'text/html');
+      let doc = new DOMParser().parseFromString('<table class="table table-sm text-center secondaryColor1"><tbody><tr class="table-info"><td></td><td id="aId">' + info.accountInfo['aId'] + '</td><td style="width:50px"><form><button name="accountCopy"><i name="accountCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="accountLink"><i name="accountLink"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>', 'text/html');
       let div = doc.body.firstChild;
       document.getElementById("accountContainers").appendChild(div)
   } else {
