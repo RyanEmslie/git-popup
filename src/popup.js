@@ -1,5 +1,5 @@
 console.log("This is Popup.js");
-let domInfo;
+// let domInfo;
 //! Third step
 //! When DOM of popup is loaded a message is sent to
 //! content script asking for information.
@@ -7,7 +7,7 @@ let domInfo;
 // ...query for the active tab...
 // ...and send a request for the DOM info...
 // ...also specifying a callback to be called
-        //    from the receiving end (content script).
+//    from the receiving end (content script).
 window.addEventListener("DOMContentLoaded", () => {
   chrome.tabs.query(
     {
@@ -26,62 +26,97 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Update the relevant fields with the new data.
 const setDOMInfo = info => {
-  console.log(info);  
-  console.log(info.accountInfo.length)
-  console.log(info.accountInfo['aId'])
-  if (info.containers.length > 1){
-    document.getElementById('gtmWarningMessage').innerText ='**WARNING** Multiple GTM Containers Detected'
+  if (info.accountInfo.length > 1) {
+    document.getElementById("feathrWarningMessage").innerText =
+      "**WARNING** Multiple Feathr Super Pixels Detected";
   }
-  
-  if ( info.numberPixels > 1 ){
-    document.getElementById('feathrWarningMessage').innerText ='**WARNING** Multiple Feathr Super Pixels Detected'
+  if (info.containers.length > 1) {
+    document.getElementById("gtmWarningMessage").innerText =
+      "**WARNING** Multiple GTM Containers Detected";
   }
-  
-  domInfo = info;
-  if (info.containers.length > 0) {
-    for (var i = 0; i < info.containers.length; i++) {
-      let doc = new DOMParser().parseFromString('<table class="table table-sm text-center secondaryColor1"><tbody><tr class="table-success"><td>' + info.containers[i] + '</td><td style="width:50px"><form><button data="'+ info.containers[i] +'"name="gtmCopy" ><i data="'+ info.containers[i] +'" name="gtmCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="linkGTM"><i name="linkGTM"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>', 'text/html');
-      let div = doc.body.firstChild;
-      document.getElementById("gtmContainers").appendChild(div)
-    }
-  } else if (info.containers.length == 0){
-    let doc = new DOMParser().parseFromString('<table class="table table-sm text-center table-danger"><tbody><tr><td>No GTM Containers Detected</td></tr></tbody></table>', 'text/html');
-      let div = doc.body.firstChild;
-      document.getElementById("gtmContainers").appendChild(div)
-  }
+
   // ACCOUNT
-  if (info.accountInfo['aId'] != 'No Feathr') {
-      let doc = new DOMParser().parseFromString('<table class="table table-sm text-center secondaryColor1"><tbody><tr class="table-info"><td></td><td id="aId">' + info.accountInfo['aId'] + '</td><td style="width:50px"><form><button name="accountCopy"><i name="accountCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="accountLink"><i name="accountLink"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>', 'text/html');
+  if (info.accountInfo[0] !== "No Feathr Super Pixel Detected") {
+    for (var i = 0; i < info.accountInfo.length; i++) {
+      let doc = new DOMParser().parseFromString(
+        '<table class="table table-sm text-center secondaryColor1"><tbody><tr class="table-info"><td></td><td id="aId">' +
+          info.accountInfo[i] +
+          '</td><td style="width:50px"><form><button name="accountCopy" data="' +
+          info.accountInfo[i] +
+          '"><i name="accountCopy" data="' +
+          info.accountInfo[i] +
+          '" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="accountLink" data="' +
+          info.accountInfo[i] +
+          '"><i name="accountLink" data="' +
+          info.accountInfo[i] +
+          '"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>',
+        "text/html"
+      );
       let div = doc.body.firstChild;
-      document.getElementById("accountContainers").appendChild(div)
+      document.getElementById("accountContainers").appendChild(div);
+    }
   } else {
-    let doc = new DOMParser().parseFromString('<table class="table table-sm text-center table-danger"><tbody><tr><td>No Feathr Account Detected</td></tr></tbody></table>', 'text/html');
-      let div = doc.body.firstChild;
-      document.getElementById("accountContainers").appendChild(div)
+    let doc = new DOMParser().parseFromString(
+      '<table class="table table-sm text-center table-danger"><tbody><tr><td>' +
+        info.accountInfo[0] +
+        "</td></tr></tbody></table>",
+      "text/html"
+    );
+    let div = doc.body.firstChild;
+    document.getElementById("accountContainers").appendChild(div);
   }
-}
+  // CONTAINERS
+  if (info.containers[0] !== "No GTM Containers Detected") {
+    for (var i = 0; i < info.containers.length; i++) {
+      let doc = new DOMParser().parseFromString(
+        '<table class="table table-sm text-center secondaryColor1"><tbody><tr class="table-success"><td>' +
+          info.containers[i] +
+          '</td><td style="width:50px"><form><button data="' +
+          info.containers[i] +
+          '"name="gtmCopy" ><i data="' +
+          info.containers[i] +
+          '" name="gtmCopy" class="far fa-copy"></i></button></form></td><td style="width:50px"><form><button name="linkGTM"><i name="linkGTM"class="fas fa-external-link-alt"></i></button></form></td></tr></tbody></table>',
+        "text/html"
+      );
+      let div = doc.body.firstChild;
+      document.getElementById("gtmContainers").appendChild(div);
+    }
+  } else {
+    let doc = new DOMParser().parseFromString(
+      '<table class="table table-sm text-center table-danger"><tbody><tr><td>' +
+        info.containers[0] +
+        "</td></tr></tbody></table>",
+      "text/html"
+    );
+    let div = doc.body.firstChild;
+    document.getElementById("gtmContainers").appendChild(div);
+  }
+};
 
 // Event listener for clicks on HTML elements to copy text to clipboard
-document.addEventListener("click", (e) => {
-  e.preventDefault()
+document.addEventListener("click", e => {
+  e.preventDefault();
   console.log(e);
-  if (e.target.attributes[0].textContent == 'accountCopy'){
-    copyClick(domInfo.accountInfo.aId)
-  }
-  else if (e.target.attributes[0].textContent == 'accountLink') {
-    window.open(`https://blackbox.feathr.co/v1/admin/accounts/${domInfo.accountInfo.aId}`)
-    sendMessage('Link Opened in New Tab', 15000)
+  try{
+  if (e.target.attributes[0].textContent == "accountCopy") {
+    copyClick(e.target.attributes[1].textContent);
+  } else if (e.target.attributes[0].textContent == "accountLink") {
+    window.open(
+      `https://glassbox.feathr.app/accounts/${e.target.attributes[1].textContent}/#users`
+    );
+    sendMessage("Link Opened in New Tab", 15000);
+  } else if (e.target.attributes[0].textContent == "linkGTM") {
+    window.open(`https://tagmanager.google.com/`);
+    sendMessage("Link Opened in New Tab", 15000);
+  } else if (e.target.attributes[1].textContent == "gtmCopy") {
+    copyClick(e.target.attributes[0].textContent);
   } 
-  else if (e.target.attributes[0].textContent == 'linkGTM') {
-    window.open(`https://tagmanager.google.com/`)
-    sendMessage('Link Opened in New Tab', 15000)
-  } 
-  else if (e.target.attributes[1].textContent == 'gtmCopy'){
-    copyClick(e.target.attributes[0].textContent)
-  }
+} catch(err){}
 });
 
-const copyClick = (textToCopy) =>{
+// Creates a temporary text node with text to be copied
+// Selects text, copies text to clipboard, deletes temp text node
+const copyClick = textToCopy => {
   var myTemporaryInputElement = document.createElement("input");
   myTemporaryInputElement.type = "text";
   myTemporaryInputElement.value = textToCopy;
@@ -89,10 +124,13 @@ const copyClick = (textToCopy) =>{
   myTemporaryInputElement.select();
   document.execCommand("Copy");
   document.body.removeChild(myTemporaryInputElement);
-  sendMessage('Copied to Clipboard')
-}
+  sendMessage("Copied to Clipboard");
+};
 
-const sendMessage = (message) =>{
-  document.getElementById('message').innerText = message
-  setTimeout(function(){ document.getElementById('message').innerText = ' ' }, 1500);
-}
+// Displayes Messages on the bottom of popup html
+const sendMessage = message => {
+  document.getElementById("message").innerText = message;
+  setTimeout(function() {
+    document.getElementById("message").innerText = " ";
+  }, 1500);
+};

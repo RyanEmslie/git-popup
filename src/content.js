@@ -23,46 +23,35 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
   if (msg.from === "popup" && msg.subject === "DOMInfo") {
     var domInfo = {
       accountInfo: getAccount(),
-      containers: getContainers(),
-      numberPixels: document.querySelectorAll('img[src*="polo"]').length
+      containers: getContainers()
     };
     response(domInfo);
   }
 });
 
-const getAccount = () => {
-  let accountInfo = {};
-  
-  let tempA = document
-  .querySelector('img[src*="crumb"]')
-  if (!tempA){
-    accountInfo.aId = 'No Feathr'
+const getContainers = () => {
+  var [...gtmCheck] = document.querySelectorAll("script");
+  var containers = gtmCheck
+    .filter(gtm => gtm.src.includes("GTM"))
+    .map(gtm => {
+      return gtm.src.split("=")[1];
+    });
+  if (containers.length == 0) {
+    return ["No GTM Containers Detected"];
   } else {
-  let tempAstr = tempA.src.split("a_id=")[1]
-  .split("&")[0]
-  accountInfo.aId = tempAstr
+    return containers;
   }
-  
-  let tempF = document
-  .querySelector('img[src*="crumb"]')
-  if(!tempF){
-    accountInfo.fId = 'No Feathr'
-  } else {
-  let tempFstr = tempF.src.split("f_id=")[1]
-  .split("&")[0];
-  accountInfo.fId = tempFstr
-  }
-  return accountInfo;
 };
 
-const getContainers = () => {
-  let GTMContainers = [];
-  var gtmCheck = document.querySelectorAll("script");
-  for (var i = 0; i < gtmCheck.length; i++) {
-    if (gtmCheck[i].src.includes("gtm.js")) {
-      GTMContainers.push(gtmCheck[i].src.split("=")[1]);
-    }
+const getAccount = () => {
+  const [...accounts] = document.querySelectorAll('img[src*="crumb"]');
+  if (accounts.length == 0) {
+    return ["No Feathr Super Pixel Detected"];
+  } else {
+    const feathrAccounts = accounts.map(account => {
+      return account.src.split("a_id=")[1].split("&")[0];
+    });
+    let unique = new Set(feathrAccounts);
+    return [...unique];
   }
-
-  return GTMContainers;
 };

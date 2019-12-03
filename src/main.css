@@ -4,18 +4,9 @@ body {
   border: 5px solid gray;
   border-style: inset;
   font-size: 14px;
-  /* background-color: #56a9e3; */
   background-image: linear-gradient(rgba(50,133,192,1), rgba(158,208,244,1));
   
-  /* background-color: gray; */
 }
-
-/* .jumbotron {
-  color: white;
-  background-color: #62abe0;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-} */
-
 
 
 table {
@@ -36,22 +27,16 @@ td {
 button {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   font-size: 12px;
-  /* background-color: rgba(82,174,200,1); */
   border-color: whtie;
 }
 
 .primaryColor1 {
-  /* background-color: rgba(57,124,163,0.7); */
-  /* background-color: #3284c0; */
   background-color: white;
 }
 .secondaryColor1 {
-  /* background-color: rgba(82,174,200,0.7); */
-  /* background-color: #56a9e3; */
   background-color: white;
 }
 .tertiaryColor1 {
-  /* background-color: rgba(85,195,158,0.7); */
   background-color: white;
 }
 
